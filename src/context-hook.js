@@ -4,7 +4,13 @@ const {
   getRepoContainerTag,
   getProjectName,
 } = require('./lib/container-tag');
-const { loadSettings, getApiKey, debugLog } = require('./lib/settings');
+const { loadProjectConfig } = require('./lib/project-config');
+const {
+  loadSettings,
+  getApiKey,
+  getBaseUrl,
+  debugLog,
+} = require('./lib/settings');
 const { readStdin, writeOutput } = require('./lib/stdin');
 const { startAuthFlow, AUTH_BASE_URL } = require('./lib/auth');
 const { formatContext, combineContexts } = require('./lib/format-context');
@@ -29,12 +35,13 @@ async function main() {
     const updateCheck = checkForUpdate(PLUGIN_VERSION).then((info) =>
       info ? formatUpdateNotice(info) : null,
     );
+    const projectConfig = loadProjectConfig(cwd);
 
     debugLog(settings, 'SessionStart', { cwd, projectName });
 
     let apiKey;
     try {
-      apiKey = getApiKey(settings);
+      apiKey = getApiKey(settings, cwd, projectConfig);
     } catch {
       try {
         debugLog(settings, 'No API key found, starting browser auth flow');
@@ -59,7 +66,8 @@ Or set SUPERMEMORY_CC_API_KEY environment variable manually.
       }
     }
 
-    const client = new SupermemoryClient(apiKey);
+    const baseUrl = getBaseUrl(cwd, projectConfig);
+    const client = new SupermemoryClient(apiKey, undefined, { baseUrl });
     const personalTag = getContainerTag(cwd);
     const repoTag = getRepoContainerTag(cwd);
 
