@@ -1,4 +1,4 @@
 {
   "version": "0.0.7",
-  "updateCommand": "/plugin marketplace add supermemoryai/claude-supermemory && /plugin install supermemory"
+  "updateCommand": "/plugin uninstall claude-supermemory@supermemory-plugins\n/plugin marketplace update supermemory-plugins\n/plugin install supermemory@supermemory-plugins"
 }
