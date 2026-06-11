@@ -77,6 +77,7 @@ Per-repo overrides. Run `/supermemory:project-config` or create manually:
 ```json
 {
   "apiKey": "sm_...",
+  "baseUrl": "https://api.supermemory.ai",
   "repoContainerTag": "my-team-project",
   "signalExtraction": true
 }
@@ -85,6 +86,7 @@ Per-repo overrides. Run `/supermemory:project-config` or create manually:
 | Option                 | Description                 |
 | ---------------------- | --------------------------- |
 | `apiKey`               | Project-specific API key    |
+| `baseUrl`              | Supermemory API URL    |
 | `personalContainerTag` | Override personal container |
 | `repoContainerTag`     | Override team container tag |
 
